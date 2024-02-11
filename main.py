@@ -24,6 +24,8 @@ def get_text_input():
 
 
 print("Converting text to speech...")
+
+
 def convert_text_to_speech(text, language):
     try:
         engine = pyttsx3.init()
@@ -41,6 +43,8 @@ def convert_text_to_speech(text, language):
 
 
 print("Running model...")
+
+
 def run_model_with_prompt(llm, text_prompt):
     try:
         stream = llm(
