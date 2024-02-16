@@ -3,9 +3,11 @@ import pyttsx3
 import copy
 from difflib import get_close_matches
 from llama_cpp import Llama
+import textwrap
 from contextlib import ContextDecorator
 import os
 import sys
+
 
 def load_memory(file_path: str) -> dict:
     with open(file_path, 'r') as file:
@@ -70,15 +72,18 @@ def bot(llm):
 
         if best_match:
             answer = get_answer(best_match, memory)
-            print(f'Bot: {answer}')
+            print(f'Bot:')
+            for line in textwrap.wrap(answer, width=80):
+                print(line)
             convert_text_to_speech(answer)
         else:
             llm_answer = run_model_with_prompt(llm, user_input)
-            print(f'Bot: {llm_answer}')
+            print(f'Bot:')
+            for line in textwrap.wrap(llm_answer, width=80):
+                print(line)
             convert_text_to_speech(llm_answer)
             memory['questions'].append({'question': user_input, 'answer': llm_answer})
             save_memory('memory.json', memory)
-
 
 class suppress_stdout_stderr(ContextDecorator):
     def __enter__(self):
@@ -117,11 +122,13 @@ class suppress_stdout_stderr(ContextDecorator):
     def suppress(self):
         return self
 
+
 if __name__ == '__main__':
     with suppress_stdout_stderr():
         try:
             print("Loading LLM model...")
             llm = Llama(model_path="./models/mistral-7b-v0.1.Q4_0.gguf")
+            llm.verbose = False
             print("LLM Model loaded!")
         except Exception as e:
             print("Error loading LLM model:", str(e))
