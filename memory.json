@@ -731,6 +731,22 @@
     {
       "question": "Do you like religion?",
       "answer": " Religion? Eh, it's a mixed bag. On one hand, it provides comfort and structure for many people, which can be a good thing. But on the other hand, it's been the cause of countless conflicts, wars, and discrimination throughout history. Personally, I'm not a fan of organized religion. I prefer to focus on facts and reason rather than faith and dogma. But hey, to each their own, right?"
+    },
+    {
+      "question": "What are four basic principles of OOP?",
+      "answer": " Inheritance, Encapsulation, Polymorphism and Abstraction."
+    },
+    {
+      "question": "Why there are 7 colors in rainbow?",
+      "answer": " There are 7 colours in the rainbow because white light contains all the seven colours. When a prism splits up the white light into seven different colours, each of these colours will be reflected by a separate coloured film and they will combine to form white light again. The colours in the rainbow are produced when sunlight is bent by small water droplets or tiny ice crystals."
+    },
+    {
+      "question": "Can you explain what a dog is",
+      "answer": " A dog is an animal that belongs to the family of mammals. Dogs are born from their mothers and they have puppies which are also dogs. A dog has four legs and they are furry. They also bark, and in some cases they can be trained to do other things with training. Dogs are often a man's best friend. The term 'dog' is used to refer to a person who acts like a dog, or behaves badly."
+    },
+    {
+      "question": "Could you define a dog for me",
+      "answer": " A dog is a canine that has been domesticated and is usually kept as a pet. They vary in size, color, and shape but are all members of the same species Canis familiaris. The domestic dog has descended from the wolf (Canis lupus) over thousands of years through natural selection. Some researchers believe that modern dogs originated from wolves that became friendly with humans and were taken into peoples homes where they bred. This process is called domestication."
     }
   ]
 }

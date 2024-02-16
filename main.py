@@ -1,7 +1,7 @@
 import json
 import pyttsx3
 import copy
-from difflib import get_close_matches
+from difflib import get_close_matches, SequenceMatcher
 from llama_cpp import Llama
 import textwrap
 from contextlib import ContextDecorator
@@ -9,6 +9,8 @@ import os
 import sys
 import requests
 from bs4 import BeautifulSoup
+from spellchecker import SpellChecker
+
 
 def search_wikipedia(query):
     url = f"https://en.wikipedia.org/wiki/{query}"
@@ -22,6 +24,7 @@ def search_wikipedia(query):
             summary = main_content.find('p').get_text()
             return summary
     return None
+
 
 def load_memory(file_path: str) -> dict:
     with open(file_path, 'r') as file:
@@ -76,36 +79,60 @@ def run_model_with_prompt(llm, text_prompt):
         print("Error executing model:", str(e))
 
 
+def get_similar_questions(question: str, questions: list[str]) -> list[str]:
+    similar_questions = []
+    for q in questions:
+        if SequenceMatcher(None, question.lower(), q.lower()).ratio() > 0.8:
+            similar_questions.append(q)
+    return similar_questions
+
+
+def get_answer_for_similar_questions(similar_questions: list[str], knowledge: dict) -> str or None:
+    for q in similar_questions:
+        for entry in knowledge['questions']:
+            if entry['question'].lower() == q.lower():
+                return entry['answer']
+    return None
+
+
 def bot(llm):
     memory: dict = load_memory('memory.json')
+    spell = SpellChecker()
     while True:
         user_input: str = input('User: ')
         if user_input.lower() == 'quit':
             break
-        best_match: str or None = find_best_match(user_input, [q['question'] for q in memory['questions']])
+
+        # Spell check and correct user input
+        corrected_input = ' '.join([spell.correction(word) for word in user_input.split()])
+
+        best_match: str or None = find_best_match(corrected_input, [q['question'] for q in memory['questions']])
 
         if best_match:
             answer = get_answer(best_match, memory)
             print(f'Bot:')
-            for line in textwrap.wrap(answer, width=80):
+            # Increase the width parameter to ensure complete response display
+            for line in textwrap.wrap(answer, width=150):
                 print(line)
             convert_text_to_speech(answer)
         else:
-            wikipedia_summary = search_wikipedia(user_input)
+            wikipedia_summary = search_wikipedia(corrected_input)
             if wikipedia_summary:
                 print(f'Bot:')
-                for line in textwrap.wrap(wikipedia_summary, width=80):
+                # Increase the width parameter to ensure complete response display
+                for line in textwrap.wrap(wikipedia_summary, width=150):
                     print(line)
                 convert_text_to_speech(wikipedia_summary)
-                memory['questions'].append({'question': user_input, 'answer': wikipedia_summary})
+                memory['questions'].append({'question': corrected_input, 'answer': wikipedia_summary})
                 save_memory('memory.json', memory)
             else:
-                llm_answer = run_model_with_prompt(llm, user_input)
+                llm_answer = run_model_with_prompt(llm, corrected_input)
                 print(f'Bot:')
-                for line in textwrap.wrap(llm_answer, width=80):
+                # Increase the width parameter to ensure complete response display
+                for line in textwrap.wrap(llm_answer, width=150):
                     print(line)
                 convert_text_to_speech(llm_answer)
-                memory['questions'].append({'question': user_input, 'answer': llm_answer})
+                memory['questions'].append({'question': corrected_input, 'answer': llm_answer})
                 save_memory('memory.json', memory)
 
 
