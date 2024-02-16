@@ -327,6 +327,14 @@
     {
       "question": "Who was the president of USA in 2015?",
       "answer": " Barack Obama."
+    },
+    {
+      "question": "What is JSON?",
+      "answer": " JSON stands for JavaScript Object Notation. It is a lightweight data-interchange format. It is easy to read and write, and it uses the same syntax as JavaScript (except that JSON can\u2019t contain JavaScript code)."
+    },
+    {
+      "question": "What is sun?",
+      "answer": " Sun is the star in our solar system."
     }
   ]
 }
