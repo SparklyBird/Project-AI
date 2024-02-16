@@ -1,48 +1,41 @@
-import copy
+import json
 import pyttsx3
+import copy
+from difflib import get_close_matches
 from llama_cpp import Llama
 
 
-def choose_language():
-    print("Choose input language:")
-    print("1 for English")
-    print("2 for Russian")
-
-    choice = input("Enter the number: ")
-
-    if choice == "1":
-        return "english"
-    elif choice == "2":
-        return "russian"
-    else:
-        print("Invalid choice. Defaulting to English.")
-        return "english"
+def load_memory(file_path: str) -> dict:
+    with open(file_path, 'r') as file:
+        data: dict = json.load(file)
+    return data
 
 
-def get_text_input():
-    return input("Enter your question: ")
+def save_memory(file_path: str, data: dict):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=2)
 
 
-print("Converting text to speech...")
+def find_best_match(user_question: str, questions: list[str]) -> str or None:
+    matches: list = get_close_matches(user_question, questions, n=1, cutoff=1)
+    return matches[0] if matches else None
 
 
-def convert_text_to_speech(text, language):
+def get_answer(question: str, knowledge: dict) -> str or None:
+    for q in knowledge['questions']:
+        if q['question'] == question:
+            return q['answer']
+
+
+def convert_text_to_speech(text):
     try:
         engine = pyttsx3.init()
         voices = engine.getProperty('voices')
-
-        if language == "english":
-            engine.setProperty('voice', voices[1].id)  # Change the index to select a different English voice
-        elif language == "russian":
-            engine.setProperty('voice', voices[2].id)  # Change the index to select a different Russian voice
-
+        engine.setProperty('voice', voices[1].id)
         engine.say(text)
         engine.runAndWait()
     except Exception as e:
         print("Error converting text-to-speech:", str(e))
-
-
-print("Running model...")
 
 
 def run_model_with_prompt(llm, text_prompt):
@@ -54,44 +47,43 @@ def run_model_with_prompt(llm, text_prompt):
             stream=True
         )
 
-        # Accumulate the output text
         output_text = ""
         for output in stream:
             completionFragment = copy.deepcopy(output)
             output_text += completionFragment["choices"][0]["text"]
 
-        # Print the full output text
-        print(output_text)
+        return output_text
 
-        # Convert text to speech
-        convert_text_to_speech(output_text, selected_language)
     except Exception as e:
         print("Error executing model:", str(e))
 
 
-# load the model
-try:
-    print("Loading model...")
-    llm = Llama(model_path="./models/mistral-7b-v0.1.Q4_0.gguf")
-    print("Model loaded!")
-except Exception as e:
-    print("Error loading model:", str(e))
+def bot(llm):
+    memory: dict = load_memory('memory.json')
+    while True:
+        user_input: str = input('User: ')
+        if user_input.lower() == 'quit':
+            break
+        best_match: str or None = find_best_match(user_input, [q['question'] for q in memory['questions']])
 
-# Choose language for TTS
-selected_language = choose_language()
+        if best_match:
+            answer = get_answer(best_match, memory)
+            print(f'Bot: {answer}')
+            convert_text_to_speech(answer)
+        else:
+            llm_answer = run_model_with_prompt(llm, user_input)
+            print(f'Bot: {llm_answer}')
+            convert_text_to_speech(llm_answer)
+            memory['questions'].append({'question': user_input, 'answer': llm_answer})
+            save_memory('memory.json', memory)
 
-# Get text input for the prompt
-text_prompt = get_text_input()
 
-# Convert text to speech with the selected language
-if text_prompt:
-    print("Converting text to speech...")
-    convert_text_to_speech(text_prompt, selected_language)
-else:
-    print("No input question provided.")
-
-# Run the model with the text prompt
-if text_prompt:
-    run_model_with_prompt(llm, text_prompt)
-else:
-    print("No input question provided.")
+if __name__ == '__main__':
+    # load the LLM model
+    try:
+        print("Loading LLM model...")
+        llm = Llama(model_path="./models/mistral-7b-v0.1.Q4_0.gguf")
+        print("LLM Model loaded!")
+    except Exception as e:
+        print("Error loading LLM model:", str(e))
+    bot(llm)
