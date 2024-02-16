@@ -7,7 +7,21 @@ import textwrap
 from contextlib import ContextDecorator
 import os
 import sys
+import requests
+from bs4 import BeautifulSoup
 
+def search_wikipedia(query):
+    url = f"https://en.wikipedia.org/wiki/{query}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        # Extract the main content of the Wikipedia page
+        main_content = soup.find('div', id='mw-content-text')
+        if main_content:
+            # Get the first paragraph as the summary
+            summary = main_content.find('p').get_text()
+            return summary
+    return None
 
 def load_memory(file_path: str) -> dict:
     with open(file_path, 'r') as file:
@@ -77,13 +91,22 @@ def bot(llm):
                 print(line)
             convert_text_to_speech(answer)
         else:
-            llm_answer = run_model_with_prompt(llm, user_input)
-            print(f'Bot:')
-            for line in textwrap.wrap(llm_answer, width=80):
-                print(line)
-            convert_text_to_speech(llm_answer)
-            memory['questions'].append({'question': user_input, 'answer': llm_answer})
-            save_memory('memory.json', memory)
+            wikipedia_summary = search_wikipedia(user_input)
+            if wikipedia_summary:
+                print(f'Bot:')
+                for line in textwrap.wrap(wikipedia_summary, width=80):
+                    print(line)
+                convert_text_to_speech(wikipedia_summary)
+                memory['questions'].append({'question': user_input, 'answer': wikipedia_summary})
+                save_memory('memory.json', memory)
+            else:
+                llm_answer = run_model_with_prompt(llm, user_input)
+                print(f'Bot:')
+                for line in textwrap.wrap(llm_answer, width=80):
+                    print(line)
+                convert_text_to_speech(llm_answer)
+                memory['questions'].append({'question': user_input, 'answer': llm_answer})
+                save_memory('memory.json', memory)
 
 
 class suppress_stdout_stderr(ContextDecorator):

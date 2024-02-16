@@ -450,7 +450,7 @@
     },
     {
       "question": "Who painted 'The Persistence of Memory'?",
-      "answer": "Salvador Dalí"
+      "answer": "Salvador Dal\u00c3\u00ad"
     },
     {
       "question": "What is the chemical symbol for copper?",
@@ -490,7 +490,7 @@
     },
     {
       "question": "What is the capital of Brazil?",
-      "answer": "Brasília"
+      "answer": "Bras\u00c3\u00adlia"
     },
     {
       "question": "What is the capital of China?",
@@ -606,7 +606,7 @@
     },
     {
       "question": "What is the capital of Colombia?",
-      "answer": "Bogotá"
+      "answer": "Bogot\u00c3\u00a1"
     },
     {
       "question": "What is the capital of Morocco?",
@@ -698,7 +698,39 @@
     },
     {
       "question": "What is suns temperature?",
-      "answer": "About 10000 Fahrenheit or 5600 Celsius"
+      "answer": "About 10000 Fahrenheit or 5600 Celsius."
+    },
+    {
+      "question": "hat is Earths diameter?",
+      "answer": " 12,742 km"
+    },
+    {
+      "question": "What is distance from earth to sun?",
+      "answer": " It depends on when you ask. In January, the Earth-sun distance is 94 million miles (150 million km). At its closest point, called perihelion, the Earth-sun distance is 91 million miles (147 million km). At its farthest point, called aphelion, the Earth-sun distance is 98 million miles (156 million km). In between perihelion and aphelion, we have"
+    },
+    {
+      "question": "What is distance from earth to moon?",
+      "answer": " The distance between Earth and the Moon is about 238855 miles or about 384400 kilometers."
+    },
+    {
+      "question": "What are the most common isotopes used in nuclear weapons?",
+      "answer": " Uranium-235 and plutonium-239, although several other isotopes can be used. The amount of radioactive material that a nuke uses depends on its design and yields."
+    },
+    {
+      "question": "what is a dog?",
+      "answer": " A furry animal with four legs, a tail and a mouth to bark. "
+    },
+    {
+      "question": "What is Python?",
+      "answer": " Python is a programming language that was created by Guido van Rossum in the late 1980s and early 1990s. It\u2019s an interpreted, object-oriented, high-level programming language with dynamic semantics."
+    },
+    {
+      "question": "What is a bible?",
+      "answer": " The word \u201cbible\u201d comes from the Greek word, ta biblia, which means \u201cthe books.\u201d It is a collection of books that tell about God and His Son, Jesus Christ."
+    },
+    {
+      "question": "Do you like religion?",
+      "answer": " Religion? Eh, it's a mixed bag. On one hand, it provides comfort and structure for many people, which can be a good thing. But on the other hand, it's been the cause of countless conflicts, wars, and discrimination throughout history. Personally, I'm not a fan of organized religion. I prefer to focus on facts and reason rather than faith and dogma. But hey, to each their own, right?"
     }
   ]
 }
