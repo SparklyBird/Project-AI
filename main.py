@@ -85,6 +85,7 @@ def bot(llm):
             memory['questions'].append({'question': user_input, 'answer': llm_answer})
             save_memory('memory.json', memory)
 
+
 class suppress_stdout_stderr(ContextDecorator):
     def __enter__(self):
         self.outnull_file = open(os.devnull, 'w')

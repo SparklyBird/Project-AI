@@ -371,6 +371,334 @@
     {
       "question": "What do you think is the best thing in minecraft?",
       "answer": " 1. Creative Mode 2. Multiplayer 3. Survival Mode 4. Griefing 5. Inventions 6. Bugs 7. Adventure Modes 8. The End"
+    },
+    {
+      "question": "What is the boiling point of ethanol?",
+      "answer": "Ethanol boils at 78.37 degrees Celsius (173.13 degrees Fahrenheit)."
+    },
+    {
+      "question": "What is the capital of Argentina?",
+      "answer": "Buenos Aires"
+    },
+    {
+      "question": "Who wrote 'War and Peace'?",
+      "answer": "Leo Tolstoy"
+    },
+    {
+      "question": "What is the chemical symbol for carbon?",
+      "answer": "C"
+    },
+    {
+      "question": "What is the largest moon in the solar system?",
+      "answer": "Ganymede, a moon of Jupiter, is the largest moon in the solar system."
+    },
+    {
+      "question": "What is the chemical formula for sulfuric acid?",
+      "answer": "H2SO4"
+    },
+    {
+      "question": "What is the population of the United Kingdom?",
+      "answer": "Approximately 68 million people."
+    },
+    {
+      "question": "Who is credited with inventing the telephone?",
+      "answer": "Alexander Graham Bell"
+    },
+    {
+      "question": "What is the chemical symbol for mercury?",
+      "answer": "Hg"
+    },
+    {
+      "question": "Who wrote 'The Iliad'?",
+      "answer": "Homer"
+    },
+    {
+      "question": "What is the capital of Spain?",
+      "answer": "Madrid"
+    },
+    {
+      "question": "What is the chemical formula for hydrogen peroxide?",
+      "answer": "H2O2"
+    },
+    {
+      "question": "What is the speed of light?",
+      "answer": "The speed of light in a vacuum is approximately 299,792 kilometers per second (186,282 miles per second)."
+    },
+    {
+      "question": "Who painted 'Guernica'?",
+      "answer": "Pablo Picasso"
+    },
+    {
+      "question": "What is the chemical symbol for lead?",
+      "answer": "Pb"
+    },
+    {
+      "question": "What is the distance from the Earth to the Moon?",
+      "answer": "On average, the distance from the Earth to the Moon is about 384,400 kilometers (238,900 miles)."
+    },
+    {
+      "question": "Who discovered the theory of relativity?",
+      "answer": "Albert Einstein"
+    },
+    {
+      "question": "What is the chemical formula for sulfur dioxide?",
+      "answer": "SO2"
+    },
+    {
+      "question": "What is the capital of South Korea?",
+      "answer": "Seoul"
+    },
+    {
+      "question": "Who painted 'The Persistence of Memory'?",
+      "answer": "Salvador Dalí"
+    },
+    {
+      "question": "What is the chemical symbol for copper?",
+      "answer": "Cu"
+    },
+    {
+      "question": "What is the capital of Germany?",
+      "answer": "Berlin"
+    },
+    {
+      "question": "What is the capital of India?",
+      "answer": "New Delhi"
+    },
+    {
+      "question": "What is the capital of Canada?",
+      "answer": "Ottawa"
+    },
+    {
+      "question": "What is the capital of Australia?",
+      "answer": "Canberra"
+    },
+    {
+      "question": "What is the capital of South Korea?",
+      "answer": "Seoul"
+    },
+    {
+      "question": "What is the capital of Italy?",
+      "answer": "Rome"
+    },
+    {
+      "question": "What is the capital of France?",
+      "answer": "Paris"
+    },
+    {
+      "question": "What is the capital of Russia?",
+      "answer": "Moscow"
+    },
+    {
+      "question": "What is the capital of Brazil?",
+      "answer": "Brasília"
+    },
+    {
+      "question": "What is the capital of China?",
+      "answer": "Beijing"
+    },
+    {
+      "question": "What is the capital of South Africa?",
+      "answer": "Pretoria, Bloemfontein, Cape Town"
+    },
+    {
+      "question": "What is the capital of Japan?",
+      "answer": "Tokyo"
+    },
+    {
+      "question": "What is the capital of Argentina?",
+      "answer": "Buenos Aires"
+    },
+    {
+      "question": "What is the capital of Spain?",
+      "answer": "Madrid"
+    },
+    {
+      "question": "What is the capital of the United Kingdom?",
+      "answer": "London"
+    },
+    {
+      "question": "What is the capital of Mexico?",
+      "answer": "Mexico City"
+    },
+    {
+      "question": "What is the capital of Egypt?",
+      "answer": "Cairo"
+    },
+    {
+      "question": "What is the capital of Turkey?",
+      "answer": "Ankara"
+    },
+    {
+      "question": "What is the capital of Nigeria?",
+      "answer": "Abuja"
+    },
+    {
+      "question": "What is the capital of Saudi Arabia?",
+      "answer": "Riyadh"
+    },
+    {
+      "question": "What is the capital of Pakistan?",
+      "answer": "Islamabad"
+    },
+    {
+      "question": "What is the capital of Indonesia?",
+      "answer": "Jakarta"
+    },
+    {
+      "question": "What is the capital of Iran?",
+      "answer": "Tehran"
+    },
+    {
+      "question": "What is the capital of Bangladesh?",
+      "answer": "Dhaka"
+    },
+    {
+      "question": "What is the capital of South Africa?",
+      "answer": "Pretoria, Bloemfontein, Cape Town"
+    },
+    {
+      "question": "What is the capital of Thailand?",
+      "answer": "Bangkok"
+    },
+    {
+      "question": "What is the capital of Argentina?",
+      "answer": "Buenos Aires"
+    },
+    {
+      "question": "What is the capital of South Africa?",
+      "answer": "Pretoria, Bloemfontein, Cape Town"
+    },
+    {
+      "question": "What is the capital of Malaysia?",
+      "answer": "Kuala Lumpur"
+    },
+    {
+      "question": "What is the capital of Vietnam?",
+      "answer": "Hanoi"
+    },
+    {
+      "question": "What is the capital of the Philippines?",
+      "answer": "Manila"
+    },
+    {
+      "question": "What is the capital of Ukraine?",
+      "answer": "Kyiv"
+    },
+    {
+      "question": "What is the capital of Iraq?",
+      "answer": "Baghdad"
+    },
+    {
+      "question": "What is the capital of Afghanistan?",
+      "answer": "Kabul"
+    },
+    {
+      "question": "What is the capital of Peru?",
+      "answer": "Lima"
+    },
+    {
+      "question": "What is the capital of Venezuela?",
+      "answer": "Caracas"
+    },
+    {
+      "question": "What is the capital of Chile?",
+      "answer": "Santiago"
+    },
+    {
+      "question": "What is the capital of Colombia?",
+      "answer": "Bogotá"
+    },
+    {
+      "question": "What is the capital of Morocco?",
+      "answer": "Rabat"
+    },
+    {
+      "question": "What is the capital of Kenya?",
+      "answer": "Nairobi"
+    },
+    {
+      "question": "What is the capital of Tanzania?",
+      "answer": "Dodoma"
+    },
+    {
+      "question": "What is the capital of Ethiopia?",
+      "answer": "Addis Ababa"
+    },
+    {
+      "question": "What is the capital of Sudan?",
+      "answer": "Khartoum"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Algeria?",
+      "answer": "Algiers"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is the capital of Uganda?",
+      "answer": "Kampala"
+    },
+    {
+      "question": "What is suns temperature?",
+      "answer": "About 10000 Fahrenheit or 5600 Celsius"
     }
   ]
 }
