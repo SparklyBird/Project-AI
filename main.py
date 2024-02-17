@@ -10,6 +10,21 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 from spellchecker import SpellChecker
+import sqlite3
+
+DATABASE_FILE = 'memory.db'
+
+
+def create_table():
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS memory (
+                        id INTEGER PRIMARY KEY,
+                        question TEXT,
+                        answer TEXT
+                    )''')
+    conn.commit()
+    conn.close()
 
 
 def search_wikipedia(query):
@@ -26,15 +41,23 @@ def search_wikipedia(query):
     return None
 
 
-def load_memory(file_path: str) -> dict:
-    with open(file_path, 'r') as file:
-        data: dict = json.load(file)
-    return data
+def load_memory() -> list:
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM memory")
+    rows = cursor.fetchall()
+    conn.close()
+    return [{'question': row[1], 'answer': row[2]} for row in rows]
 
 
-def save_memory(file_path: str, data: dict):
-    with open(file_path, 'w') as file:
-        json.dump(data, file, indent=2)
+def save_memory(data: list):
+    conn = sqlite3.connect(DATABASE_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM memory")
+    for item in data:
+        cursor.execute("INSERT INTO memory (question, answer) VALUES (?, ?)", (item['question'], item['answer']))
+    conn.commit()
+    conn.close()
 
 
 def find_best_match(user_question: str, questions: list[str]) -> str or None:
@@ -42,10 +65,11 @@ def find_best_match(user_question: str, questions: list[str]) -> str or None:
     return matches[0] if matches else None
 
 
-def get_answer(question: str, knowledge: dict) -> str or None:
-    for q in knowledge['questions']:
+def get_answer(question: str, knowledge: list) -> str or None:
+    for q in knowledge:
         if q['question'] == question:
             return q['answer']
+    return None
 
 
 def convert_text_to_speech(text):
@@ -96,44 +120,41 @@ def get_answer_for_similar_questions(similar_questions: list[str], knowledge: di
 
 
 def bot(llm):
-    memory: dict = load_memory('memory.json')
+    create_table()  # Ensure table exists
+    memory = load_memory()
     spell = SpellChecker()
     while True:
-        user_input: str = input('User: ')
+        user_input = input('User: ')
         if user_input.lower() == 'quit':
             break
 
-        # Spell check and correct user input
         corrected_input = ' '.join([spell.correction(word) for word in user_input.split()])
 
-        best_match: str or None = find_best_match(corrected_input, [q['question'] for q in memory['questions']])
+        best_match = find_best_match(corrected_input, [q['question'] for q in memory])
 
         if best_match:
             answer = get_answer(best_match, memory)
             print(f'Bot:')
-            # Increase the width parameter to ensure complete response display
-            for line in textwrap.wrap(answer, width=150):
+            for line in textwrap.wrap(answer, width=120):
                 print(line)
             convert_text_to_speech(answer)
         else:
             wikipedia_summary = search_wikipedia(corrected_input)
             if wikipedia_summary:
                 print(f'Bot:')
-                # Increase the width parameter to ensure complete response display
-                for line in textwrap.wrap(wikipedia_summary, width=150):
+                for line in textwrap.wrap(wikipedia_summary, width=120):
                     print(line)
                 convert_text_to_speech(wikipedia_summary)
-                memory['questions'].append({'question': corrected_input, 'answer': wikipedia_summary})
-                save_memory('memory.json', memory)
+                memory.append({'question': corrected_input, 'answer': wikipedia_summary})
+                save_memory(memory)
             else:
                 llm_answer = run_model_with_prompt(llm, corrected_input)
                 print(f'Bot:')
-                # Increase the width parameter to ensure complete response display
-                for line in textwrap.wrap(llm_answer, width=150):
+                for line in textwrap.wrap(llm_answer, width=120):
                     print(line)
                 convert_text_to_speech(llm_answer)
-                memory['questions'].append({'question': corrected_input, 'answer': llm_answer})
-                save_memory('memory.json', memory)
+                memory.append({'question': corrected_input, 'answer': llm_answer})
+                save_memory(memory)
 
 
 class suppress_stdout_stderr(ContextDecorator):
