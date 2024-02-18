@@ -1,7 +1,7 @@
 import json
 import pyttsx3
 import copy
-from difflib import get_close_matches, SequenceMatcher
+from difflib import get_close_matches
 from llama_cpp import Llama
 import textwrap
 from contextlib import ContextDecorator
