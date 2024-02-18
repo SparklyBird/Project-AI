@@ -7,8 +7,6 @@ import textwrap
 from contextlib import ContextDecorator
 import os
 import sys
-import requests
-from bs4 import BeautifulSoup
 from spellchecker import SpellChecker
 import sqlite3
 
@@ -27,20 +25,6 @@ def create_table():
     conn.close()
 
 
-def search_wikipedia(query):
-    url = f"https://en.wikipedia.org/wiki/{query}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-        # Extract the main content of the Wikipedia page
-        main_content = soup.find('div', id='mw-content-text')
-        if main_content:
-            # Get the first paragraph as the summary
-            summary = main_content.find('p').get_text()
-            return summary
-    return None
-
-
 def load_memory() -> list:
     conn = sqlite3.connect(DATABASE_FILE)
     cursor = conn.cursor()
@@ -55,14 +39,23 @@ def save_memory(data: list):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM memory")
     for item in data:
-        cursor.execute("INSERT INTO memory (question, answer) VALUES (?, ?)", (item['question'], item['answer']))
+        # Capitalize the first word and ensure the question ends with a question mark
+        question = item['question'].strip().capitalize()
+        if not question.endswith('?'):
+            question += '?'
+        cursor.execute("INSERT INTO memory (question, answer) VALUES (?, ?)", (question, item['answer']))
     conn.commit()
     conn.close()
 
 
 def find_best_match(user_question: str, questions: list[str]) -> str or None:
-    matches: list = get_close_matches(user_question, questions, n=1, cutoff=1)
-    return matches[0] if matches else None
+    user_question_lower = user_question.lower()
+    questions_lower = [q.lower() for q in questions]
+    matches: list = get_close_matches(user_question_lower, questions_lower, n=1, cutoff=0.8)
+    if matches:
+        original_question = questions[questions_lower.index(matches[0])]
+        return original_question
+    return None
 
 
 def get_answer(question: str, knowledge: list) -> str or None:
@@ -91,47 +84,25 @@ def run_model_with_prompt(llm, text_prompt):
             stop=["\n", "Question:", "Q:"],
             stream=True
         )
-
         output_text = ""
         for output in stream:
             completionFragment = copy.deepcopy(output)
             output_text += completionFragment["choices"][0]["text"]
-
         return output_text
-
     except Exception as e:
         print("Error executing model:", str(e))
 
 
-def get_similar_questions(question: str, questions: list[str]) -> list[str]:
-    similar_questions = []
-    for q in questions:
-        if SequenceMatcher(None, question.lower(), q.lower()).ratio() > 0.8:
-            similar_questions.append(q)
-    return similar_questions
-
-
-def get_answer_for_similar_questions(similar_questions: list[str], knowledge: dict) -> str or None:
-    for q in similar_questions:
-        for entry in knowledge['questions']:
-            if entry['question'].lower() == q.lower():
-                return entry['answer']
-    return None
-
-
 def bot(llm):
-    create_table()  # Ensure table exists
+    create_table()
     memory = load_memory()
     spell = SpellChecker()
     while True:
         user_input = input('User: ')
         if user_input.lower() == 'quit':
             break
-
         corrected_input = ' '.join([spell.correction(word) for word in user_input.split()])
-
         best_match = find_best_match(corrected_input, [q['question'] for q in memory])
-
         if best_match:
             answer = get_answer(best_match, memory)
             print(f'Bot:')
@@ -139,22 +110,13 @@ def bot(llm):
                 print(line)
             convert_text_to_speech(answer)
         else:
-            wikipedia_summary = search_wikipedia(corrected_input)
-            if wikipedia_summary:
-                print(f'Bot:')
-                for line in textwrap.wrap(wikipedia_summary, width=120):
-                    print(line)
-                convert_text_to_speech(wikipedia_summary)
-                memory.append({'question': corrected_input, 'answer': wikipedia_summary})
-                save_memory(memory)
-            else:
-                llm_answer = run_model_with_prompt(llm, corrected_input)
-                print(f'Bot:')
-                for line in textwrap.wrap(llm_answer, width=120):
-                    print(line)
-                convert_text_to_speech(llm_answer)
-                memory.append({'question': corrected_input, 'answer': llm_answer})
-                save_memory(memory)
+            llm_answer = run_model_with_prompt(llm, corrected_input)
+            print(f'Bot:')
+            for line in textwrap.wrap(llm_answer, width=120):
+                print(line)
+            convert_text_to_speech(llm_answer)
+            memory.append({'question': corrected_input, 'answer': llm_answer})
+            save_memory(memory)
 
 
 class suppress_stdout_stderr(ContextDecorator):
