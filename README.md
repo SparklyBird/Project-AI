@@ -8,4 +8,4 @@ This Python script implements a conversational bot powered by a language model. 
 * Interactive Interface: The bot continuously interacts with users until instructed to quit.
 
 ## Issues
-* Doesn't always find question because it need more complex method that uses Natural language processing (NLP).
+* Doesn't always find question because it needs more complex method that uses Natural language processing (NLP).
